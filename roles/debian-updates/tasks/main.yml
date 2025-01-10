@@ -7,19 +7,19 @@
   register: apt_result
   when: debian_updates == 'true'
 
-- name: Create logfile
-  file:
-    path: /var/log/ansible-updates.log
-    state: touch
+#- name: Create logfile
+#  file:
+#    path: /var/log/ansible-updates.log
+#    state: touch
 
-- name: Log changes
-  blockinfile: 
-    state: present
-    insertafter: EOF
-    dest: /var/log/ansible-updates.log
-    marker: "<!-- Ansible: Update -->"
-    content: |
-      "{{ apt_result.diff.prepared }}"
+#- name: Log changes
+#  blockinfile: 
+#    state: present
+#    insertafter: EOF
+#    dest: /var/log/ansible-updates.log
+#    marker: "<!-- Ansible: Update -->"
+#    content: |
+#      "{{ apt_result.diff.prepared }}"
 
 - name: apt autoremove
   apt:
