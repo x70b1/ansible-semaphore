@@ -1,0 +1,44 @@
+---
+
+- name: apt update
+  apt:
+    update_cache: yes
+    upgrade: true
+  register: apt_result
+  when: debian_updates == 'true'
+
+- name: Create logfile
+  file:
+    path: /var/log/ansible-updates.log
+    state: touch
+
+- name: Log changes
+  blockinfile: 
+    state: present
+    insertafter: EOF
+    dest: /var/log/ansible-updates.log
+    marker: "<!-- Ansible: Update -->"
+    content: |
+      "{{ apt_result.diff.prepared }}"
+
+- name: apt autoremove
+  apt:
+    autoremove: true
+  when: debian_updates == 'true'
+
+- name: apt autoclean
+  apt:
+    autoclean: true
+  when: debian_updates == 'true'
+
+- name: Check for reboot
+  stat:
+    path: /var/run/reboot-required
+  register: reboot_result
+  when: debian_updates == 'true'
+
+- name: reboot
+  reboot:
+  when: debian_updates == 'true' and reboot_result.stat.exists == true
+
+# log schreiben?

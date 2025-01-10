@@ -1,0 +1,6 @@
+---
+
+- name: Updates
+  hosts: all
+  roles:
+    - debian-updates

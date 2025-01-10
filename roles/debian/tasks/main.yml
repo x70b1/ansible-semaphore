@@ -1,0 +1,60 @@
+---
+
+- name: debian
+  tags: debian
+  block:
+    - name: Hostname
+      ansible.builtin.copy:
+        content: |
+          {{ inventory_hostname | lower }}.example.com
+        dest: /etc/hostname
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Packagesources
+      ansible.builtin.apt:
+        update_cache: true
+        cache_valid_time: 3600
+
+    - name: Editors
+      ansible.builtin.apt:
+        name:
+          - nano
+          - vim
+          - mc
+
+    - name: Nameservers
+      ansible.builtin.template:
+        src: resolv.conf.j2
+        dest: /etc/resolv.conf
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Groups
+      ansible.builtin.group:
+        name: "{{ item.name }}"
+        gid: "{{ item.uid }}"
+      loop_control:
+        label: "{{ item.name }}"
+      loop: "{{ debian.users }}"
+
+    - name: Users
+      ansible.builtin.user:
+        name: "{{ item.name }}"
+        uid: "{{ item.uid }}"
+        group: "{{ item.name }}"
+        password: "{{ item.password }}"
+      loop_control:
+        label: "{{ item.name }}"
+      loop: "{{ debian.users }}"
+
+    - name: Pubkeys
+      ansible.posix.authorized_key:
+        user: root
+        state: present
+        exclusive: true
+        key: |
+          ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAZTe+jcNRwpCGjejlOnDIXCmmQD0wHvbtvqRiHRExDv
+          ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAZTe+jcNRwpCGjejlOnDIXCmmQD0wHvbtvqRiHREXXX

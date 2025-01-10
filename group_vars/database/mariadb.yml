@@ -1,0 +1,13 @@
+---
+mariadb:
+  databases:
+    - webapp_prod
+    - webapp_dev
+
+  users:
+    - name: admin
+      pass: "{{ vault_mariadb_admin }}"
+      privileges: '*.*:ALL'
+    - name: developer
+      pass: " {{ vault_mariadb_developer }}"
+      privileges: '*.*:ALL'

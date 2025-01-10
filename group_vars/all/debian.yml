@@ -1,0 +1,13 @@
+---
+
+debian:
+  users:
+    - name: root
+      uid: 0
+      password: $6$e5zECfjTA300z3Kn$hQFzAftJVahFU1eV8LJTK2e3mxyUtPtjYUm5l1kSzItaRGFKWZ4Cn2SsyrzmIdO1hYSZZsPoDZuZXHOR2E01J1
+    - name: admin
+      uid: 1004
+      password: $6$e5zECfjTA300z3Kn$hQFzAftJVahFU1eV8LJTK2e3mxyUtPtjYUm5l1kSzItaRGFKWZ4Cn2SsyrzmIdO1hYSZZsPoDZuZXHOR2E01J1
+    - name: developer
+      uid: 1009
+      password: $6$e5zECfjTA300z3Kn$hQFzAftJVahFU1eV8LJTK2e3mxyUtPtjYUm5l1kSzItaRGFKWZ4Cn2SsyrzmIdO1hYSZZsPoDZuZXHOR2E01J1

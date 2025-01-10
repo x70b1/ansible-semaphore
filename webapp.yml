@@ -1,0 +1,17 @@
+---
+
+- name: Debian base config
+  hosts: all
+  roles:
+    - debian
+    - chrony
+
+- name: Webserver config
+  hosts: webserver
+  roles:
+    - apache
+
+- name: Database config
+  hosts: database
+  roles:
+    - mariadb

@@ -1,0 +1,35 @@
+---
+
+- name: mariadb
+  tags: mariadb
+  block:
+    - name: Package
+      ansible.builtin.apt:
+        state: present
+        name:
+          - python3-pymysql
+          - mariadb-server
+
+    - name: Service
+      ansible.builtin.systemd:
+        name: mariadb
+        state: started
+        enabled: true
+
+    - name: Databases
+      community.mysql.mysql_db:
+        name: "{{ item }}"
+        state: present
+        login_unix_socket: /run/mysqld/mysqld.sock
+      loop: "{{ mariadb.databases }}"
+
+    - name: Users
+      community.mysql.mysql_user:
+        name: "{{ item.name }}"
+        password: "{{ item.pass }}"
+        priv: "{{ item.privileges }}"
+        state: present
+        login_unix_socket: /run/mysqld/mysqld.sock
+      loop_control:
+        label: "{{ item.name }}"
+      loop: "{{ mariadb.users }}"

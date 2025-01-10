@@ -1,0 +1,38 @@
+---
+
+- name: apache
+  tags: apache
+  block:
+    - name: Package
+      ansible.builtin.apt:
+        state: present
+        name:
+          - apache2
+
+    - name: Service
+      ansible.builtin.systemd:
+        name: apache2
+        state: started
+        enabled: true
+
+    - name: Defaultpage
+      ansible.builtin.copy:
+        src: index.html
+        dest: /var/www/html/index.html
+        owner: root
+        group: root
+        mode: '0644'
+
+#    - name: HTTP Request
+#      uri:
+#        url: http://127.0.0.1
+#      register: webrequest
+#
+#    - name: Debug webrequest
+#      debug:
+#        var: webrequest
+#
+#    - name: mache update
+#      shell:
+#        cmd: mache irgendwas
+#      when: webrequest.status == 200

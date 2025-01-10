@@ -1,0 +1,5 @@
+---
+
+resolver:
+  - name: Hetzner
+    ip: 185.12.64.1

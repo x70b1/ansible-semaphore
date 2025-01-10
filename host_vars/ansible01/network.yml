@@ -1,0 +1,7 @@
+---
+
+resolver:
+  - name: Google 
+    ip: 8.8.8.8
+  - name: Cloudflare
+    ip: 1.1.1.1

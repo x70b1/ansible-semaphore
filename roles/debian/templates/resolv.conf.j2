@@ -1,0 +1,7 @@
+# /etc/resolv.conf
+
+{% for server in resolver %}
+nameserver {{ server.ip }} # {{ server.name }}
+
+
+{% endfor %}
